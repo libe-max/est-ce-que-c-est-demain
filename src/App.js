@@ -1,9 +1,18 @@
 import React, { Component } from 'react'
+import moment from 'moment'
+import 'moment/locale/fr'
 import Loader from 'libe-components/lib/blocks/Loader'
 import LoadingError from 'libe-components/lib/blocks/LoadingError'
 import ShareArticle from 'libe-components/lib/blocks/ShareArticle'
 import LibeLaboLogo from 'libe-components/lib/blocks/LibeLaboLogo'
 import ArticleMeta from 'libe-components/lib/blocks/ArticleMeta'
+import InterTitle from 'libe-components/lib/text-levels/InterTitle'
+import AnnotationTitle from 'libe-components/lib/text-levels/AnnotationTitle'
+import Paragraph from 'libe-components/lib/text-levels/Paragraph'
+import JSXInterpreter from 'libe-components/lib/logic/JSXInterpreter'
+import { parseTsv } from 'libe-utils'
+
+moment.locale('fr')
 
 export default class App extends Component {
   /* * * * * * * * * * * * * * * * *
@@ -13,7 +22,7 @@ export default class App extends Component {
    * * * * * * * * * * * * * * * * */
   constructor () {
     super()
-    this.c = 'lblb-some-app'
+    this.c = 'lblb-est-ce-que-c-est-demain'
     this.state = {
       loading_sheet: true,
       error_sheet: null,
@@ -99,7 +108,7 @@ export default class App extends Component {
       const reach = await window.fetch(this.props.spreadsheet)
       if (!reach.ok) throw reach
       const data = await reach.text()
-      const parsedData = data // Parse sheet here
+      const parsedData = parseTsv(data, [7])[0]
       this.setState({ loading_sheet: false, error_sheet: null, data_sheet: parsedData })
       return data
     } catch (error) {
@@ -157,19 +166,46 @@ export default class App extends Component {
     if (state.loading_sheet) return <div className={classes.join(' ')}><div className='lblb-default-apps-loader'><Loader /></div></div>
     if (state.error_sheet) return <div className={classes.join(' ')}><div className='lblb-default-apps-error'><LoadingError /></div></div>
 
+    const { end_date: endDate, end_time: endTime, no, yes, today, passed } = state.data_sheet[0]
+    const endMomentStr = `${endDate} ${endTime}`
+    const endMoment = moment(endMomentStr, 'YYYY/MM/DD HH:mm')
+    // const nowMoment = moment('2020/05/11 13:30', 'YYYY/MM/DD HH:mm')
+    const nowMoment = moment()
+    const daysDiff = endMoment.diff(nowMoment, 'days', true)
+    const isPassed = endMoment.diff(nowMoment) <= 0
+    const endMomentToMidnight = moment(endMoment).startOf('day')
+    const nowMomentToMidnight = moment(nowMoment).startOf('day')
+    const diffToMidnight = endMomentToMidnight.diff(nowMomentToMidnight, 'days')    
+
+    const question = state.data_sheet[0].question
+    const answer = diffToMidnight > 1
+      ? no.replace(/<<MOMENT>>/igm, endMoment.from(nowMoment).replace(/il\sy\sa\s/igm, '').replace(/dans\s/igm, ''))
+      : diffToMidnight === 1
+      ? yes.replace(/<<MOMENT>>/igm, endMoment.from(nowMoment).replace(/il\sy\sa\s/igm, '').replace(/dans\s/igm, ''))
+      : isPassed
+      ? passed.replace(/<<MOMENT>>/igm, endMoment.from(nowMoment).replace(/il\sy\sa\s/igm, '').replace(/dans\s/igm, ''))
+      : today.replace(/<<MOMENT>>/igm, endMoment.from(nowMoment).replace(/il\sy\sa\s/igm, '').replace(/dans\s/igm, ''))
+
     /* Display component */
     return <div className={classes.join(' ')}>
-      App is ready.<br />
-      - fill spreadsheet field in config.js<br />
-      - display it's content via state.data_sheet
+      <div className={`${c}__question`}>
+        <Paragraph literary huge level={1}>
+          <JSXInterpreter content={question} />
+        </Paragraph>
+      </div>
+      <div className={`${c}__answer`}>
+        <InterTitle>
+          <JSXInterpreter content={answer} />
+        </InterTitle>
+      </div>
+      <div className={`${c}__links`}>
+        <AnnotationTitle big>Pour passer le temps</AnnotationTitle>
+        <Paragraph><a href='/'>Un lien</a></Paragraph>
+        <Paragraph><a href='/'>Un lien</a></Paragraph>
+        <Paragraph><a href='/'>Un lien</a></Paragraph>
+      </div>
       <div className='lblb-default-apps-footer'>
         <ShareArticle short iconsOnly tweet={props.meta.tweet} url={props.meta.url} />
-        <ArticleMeta
-          publishedOn='02/09/2019 17:13' updatedOn='03/09/2019 10:36' authors={[
-            { name: 'Jean-Sol Partre', role: '', link: 'www.liberation.fr' },
-            { name: 'Maxime Fabas', role: 'Production', link: 'lol.com' }
-          ]}
-        />
         <LibeLaboLogo target='blank' />
       </div>
     </div>

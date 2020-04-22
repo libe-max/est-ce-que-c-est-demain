@@ -3,18 +3,18 @@ const currentHostname = typeof window !== 'undefined' ? window.location.hostname
 
 const config = {
   meta: {
-    author: 'Maxime Fabas',
-    title: 'Libé apps template',
+    author: 'Libé Labo',
+    title: 'Est-ce que c\'est demain la fin du confinement ?',
     url: '',
     description: '',
     image: '',
-    xiti_id: 'test',
+    xiti_id: 'est-ce-que-c-est-demain',
     tweet: 'Some tweet text',
   },
   tracking: {
     active: false,
-    format: 'libe-apps-template',
-    article: 'libe-apps-template'
+    format: 'est-ce-que-c-est-demain',
+    article: 'est-ce-que-c-est-demain'
   },
   show_header: true,
   statics_url: process.env.NODE_ENV === 'production'
@@ -23,8 +23,8 @@ const config = {
   api_url: process.env.NODE_ENV === 'production'
     ? 'https://libe-labo-2.site/api'
     : `${currentProtocol}//${currentHostname}:3004/api`,
-  stylesheet: 'libe-apps-template.css', // The name of the css file hosted at ${statics_url}/styles/apps/
-  spreadsheet: undefined // The spreadsheet providing data to the app
+  stylesheet: 'est-ce-que-c-est-demain.css',
+  spreadsheet: 'https://docs.google.com/spreadsheets/d/e/2PACX-1vRkd5cstwwUfeFgzBcwOuYWwPPpdiB3wkXaUHkWew8gahb9_9M_MhuWjSg928IoPjWai9aVfWG3F8H9/pub?gid=0&single=true&output=tsv'
 }
 
 module.exports = config

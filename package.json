@@ -2,11 +2,14 @@
   "name": "libe-apps-template",
   "version": "0.2.3",
   "private": true,
+  "homepage": "/apps/2020/04/est-ce-que-c-est-demain-le-deconfinement",
   "dependencies": {
     "libe-components": "^1.2.0",
+    "libe-utils": "^1.0.1",
+    "moment": "^2.24.0",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
-    "react-helmet": "^5.2.1",
+    "react-helmet": "^6.0.0",
     "react-scripts": "^3.4.1",
     "whatwg-fetch": "^3.0.0"
   },

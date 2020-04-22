@@ -1,0 +1,65 @@
+#libe-labo-app-wrapper {
+  padding: 1rem;
+}
+
+.lblb-est-ce-que-c-est-demain {
+  max-width: 63rem;
+  margin: 4rem auto 2rem auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.lblb-est-ce-que-c-est-demain__question,
+.lblb-est-ce-que-c-est-demain__answer,
+.lblb-est-ce-que-c-est-demain__links {
+  margin-bottom: 4rem;
+  text-align: center;
+  display: block;
+}
+
+.lblb-est-ce-que-c-est-demain__links {
+  max-width: 38rem;
+  margin-bottom: 2rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.lblb-est-ce-que-c-est-demain__links > * {
+  margin-bottom: .5rem;
+}
+
+.lblb-est-ce-que-c-est-demain__links > .lblb-annotation-title {
+  margin-bottom: 1rem;
+}
+
+@media screen and (max-width: 63rem) {
+  .lblb-est-ce-que-c-est-demain {
+    margin: 2.5rem auto 1.5 auto;
+  }
+
+  .lblb-est-ce-que-c-est-demain__question,
+  .lblb-est-ce-que-c-est-demain__answer {
+    margin-bottom: 2.5rem;
+  }
+
+  .lblb-est-ce-que-c-est-demain__links {
+    margin-bottom: 1.5rem;
+  }
+}
+
+@media screen and (max-width: 40rem) {
+  .lblb-est-ce-que-c-est-demain {
+    margin: 1.5rem auto 1rem auto;
+  }
+
+  .lblb-est-ce-que-c-est-demain__question,
+  .lblb-est-ce-que-c-est-demain__answer {
+    margin-bottom: 1.5rem;
+  }
+
+  .lblb-est-ce-que-c-est-demain__links {
+    margin-bottom: 1rem;
+  }
+}
